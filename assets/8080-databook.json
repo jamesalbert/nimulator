@@ -1,0 +1,1538 @@
+{
+  "0x3e": {
+    "function": "A <- byte 2",
+    "instruction": "MVI A,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x3d": {
+    "function": "A <- A-1",
+    "instruction": "DCR A",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0xe4": {
+    "function": "if PO, CALL adr",
+    "instruction": "CPO adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x3f": {
+    "function": "CY=!CY",
+    "instruction": "CMC",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x3a": {
+    "function": "A <- (adr)",
+    "instruction": "LDA adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x3c": {
+    "function": "A <- A+1",
+    "instruction": "INR A",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x3b": {
+    "function": "SP = SP-1",
+    "instruction": "DCX SP",
+    "flags": null,
+    "size": "1"
+  },
+  "0xff": {
+    "function": "CALL $38",
+    "instruction": "RST 7",
+    "flags": null,
+    "size": "1"
+  },
+  "0xfa": {
+    "function": "if M, PC <- adr",
+    "instruction": "JM adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xda": {
+    "function": "if CY, PC<-adr",
+    "instruction": "JC adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xec": {
+    "function": "if PE, CALL adr",
+    "instruction": "CPE adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x28": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x29": {
+    "function": "HL = HL + HI",
+    "instruction": "DAD H",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0xcf": {
+    "function": "CALL $8",
+    "instruction": "RST 1",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf8": {
+    "function": "if M, RET",
+    "instruction": "RM",
+    "flags": null,
+    "size": "1"
+  },
+  "0xeb": {
+    "function": "H <-> D; L <-> E",
+    "instruction": "XCHG",
+    "flags": null,
+    "size": "1"
+  },
+  "0x22": {
+    "function": "(adr) <-L; (adr+1)<-H",
+    "instruction": "SHLD adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x23": {
+    "function": "HL <- HL + 1",
+    "instruction": "INX H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x20": {
+    "function": "special",
+    "instruction": "RIM",
+    "flags": null,
+    "size": "1"
+  },
+  "0x21": {
+    "function": "H <- byte 3, L <- byte 2",
+    "instruction": "LXI H,D16",
+    "flags": null,
+    "size": "3"
+  },
+  "0x26": {
+    "function": "L <- byte 2",
+    "instruction": "MVI H,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x27": {
+    "function": "special",
+    "instruction": "DAA",
+    "flags": null,
+    "size": "1"
+  },
+  "0x24": {
+    "function": "H <- H+1",
+    "instruction": "INR H",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x25": {
+    "function": "H <- H-1",
+    "instruction": "DCR H",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0xdb": {
+    "function": "special",
+    "instruction": "IN D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0xef": {
+    "function": "CALL $28",
+    "instruction": "RST 5",
+    "flags": null,
+    "size": "1"
+  },
+  "0xe2": {
+    "function": "if PO, PC <- adr",
+    "instruction": "JPO adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xee": {
+    "function": "A <- A ^ data",
+    "instruction": "XRI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xed": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0xdc": {
+    "function": "if CY, CALL adr",
+    "instruction": "CC adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x35": {
+    "function": "(HL) <- (HL)-1",
+    "instruction": "DCR M",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x34": {
+    "function": "(HL) <- (HL)+1",
+    "instruction": "INR M",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x37": {
+    "function": "CY = 1",
+    "instruction": "STC",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x36": {
+    "function": "(HL) <- byte 2",
+    "instruction": "MVI M,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x31": {
+    "function": "SP.hi <- byte 3, SP.lo <- byte 2",
+    "instruction": "LXI SP,D16",
+    "flags": null,
+    "size": "3"
+  },
+  "0x30": {
+    "function": "special",
+    "instruction": "SIM",
+    "flags": null,
+    "size": "1"
+  },
+  "0x33": {
+    "function": "SP = SP + 1",
+    "instruction": "INX SP",
+    "flags": null,
+    "size": "1"
+  },
+  "0x32": {
+    "function": "(adr) <- A",
+    "instruction": "STA adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xd4": {
+    "function": "if NCY, CALL adr",
+    "instruction": "CNC adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xe8": {
+    "function": "if PE, RET",
+    "instruction": "RPE",
+    "flags": null,
+    "size": "1"
+  },
+  "0x39": {
+    "function": "HL = HL + SP",
+    "instruction": "DAD SP",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x38": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0xc0": {
+    "function": "if NZ, RET",
+    "instruction": "RNZ",
+    "flags": null,
+    "size": "1"
+  },
+  "0xe1": {
+    "function": "L <- (sp); H <- (sp+1); sp <- sp+2",
+    "instruction": "POP H",
+    "flags": null,
+    "size": "1"
+  },
+  "0xfe": {
+    "function": "A - data",
+    "instruction": "CPI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0x88": {
+    "function": "A <- A + B + CY",
+    "instruction": "ADC B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xdd": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x89": {
+    "function": "A <- A + C + CY",
+    "instruction": "ADC C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x2b": {
+    "function": "HL = HL-1",
+    "instruction": "DCX H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x2c": {
+    "function": "L <- L+1",
+    "instruction": "INR L",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0xfd": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x2a": {
+    "function": "L <- (adr); H<-(adr+1)",
+    "instruction": "LHLD adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x2f": {
+    "function": "A <- !A",
+    "instruction": "CMA",
+    "flags": null,
+    "size": "1"
+  },
+  "0xfc": {
+    "function": "if M, CALL adr",
+    "instruction": "CM adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x2d": {
+    "function": "L <- L-1",
+    "instruction": "DCR L",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x2e": {
+    "function": "L <- byte 2",
+    "instruction": "MVI L,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x5c": {
+    "function": "E <- H",
+    "instruction": "MOV E,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x5b": {
+    "function": "E <- E",
+    "instruction": "MOV E,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x5a": {
+    "function": "E <- D",
+    "instruction": "MOV E,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0xba": {
+    "function": "A - D",
+    "instruction": "CMP D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x5f": {
+    "function": "E <- A",
+    "instruction": "MOV E,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x5e": {
+    "function": "E <- (HL)",
+    "instruction": "MOV E,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x5d": {
+    "function": "E <- L",
+    "instruction": "MOV E,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0xc9": {
+    "function": "PC.lo <- (sp); PC.hi<-(sp+1); SP <- SP+2",
+    "instruction": "RET",
+    "flags": null,
+    "size": "1"
+  },
+  "0x40": {
+    "function": "B <- B",
+    "instruction": "MOV B,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x41": {
+    "function": "B <- C",
+    "instruction": "MOV B,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x42": {
+    "function": "B <- D",
+    "instruction": "MOV B,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x43": {
+    "function": "B <- E",
+    "instruction": "MOV B,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x44": {
+    "function": "B <- H",
+    "instruction": "MOV B,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x45": {
+    "function": "B <- L",
+    "instruction": "MOV B,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x46": {
+    "function": "B <- (HL)",
+    "instruction": "MOV B,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x47": {
+    "function": "B <- A",
+    "instruction": "MOV B,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x48": {
+    "function": "C <- B",
+    "instruction": "MOV C,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x49": {
+    "function": "C <- C",
+    "instruction": "MOV C,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0xaf": {
+    "function": "A <- A ^ A",
+    "instruction": "XRA A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xae": {
+    "function": "A <- A ^ (HL)",
+    "instruction": "XRA M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xad": {
+    "function": "A <- A ^ L",
+    "instruction": "XRA L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xac": {
+    "function": "A <- A ^ H",
+    "instruction": "XRA H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xab": {
+    "function": "A <- A ^ E",
+    "instruction": "XRA E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xaa": {
+    "function": "A <- A ^ D",
+    "instruction": "XRA D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xe6": {
+    "function": "A <- A & data",
+    "instruction": "ANI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xea": {
+    "function": "if PE, PC <- adr",
+    "instruction": "JPE adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x4a": {
+    "function": "C <- D",
+    "instruction": "MOV C,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x4b": {
+    "function": "C <- E",
+    "instruction": "MOV C,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x4c": {
+    "function": "C <- H",
+    "instruction": "MOV C,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x4d": {
+    "function": "C <- L",
+    "instruction": "MOV C,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x4e": {
+    "function": "C <- (HL)",
+    "instruction": "MOV C,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x4f": {
+    "function": "C <- A",
+    "instruction": "MOV C,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x53": {
+    "function": "D <- E",
+    "instruction": "MOV D,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x52": {
+    "function": "D <- D",
+    "instruction": "MOV D,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x51": {
+    "function": "D <- C",
+    "instruction": "MOV D,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x50": {
+    "function": "D <- B",
+    "instruction": "MOV D,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x57": {
+    "function": "D <- A",
+    "instruction": "MOV D,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x56": {
+    "function": "D <- (HL)",
+    "instruction": "MOV D,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x55": {
+    "function": "D <- L",
+    "instruction": "MOV D,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x54": {
+    "function": "D <- H",
+    "instruction": "MOV D,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0xe5": {
+    "function": "(sp-2)<-L; (sp-1)<-H; sp <- sp - 2",
+    "instruction": "PUSH H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x59": {
+    "function": "E <- C",
+    "instruction": "MOV E,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x58": {
+    "function": "E <- B",
+    "instruction": "MOV E,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf4": {
+    "function": "if P, PC <- adr",
+    "instruction": "CP adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xfb": {
+    "function": "special",
+    "instruction": "EI",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf9": {
+    "function": "SP=HL",
+    "instruction": "SPHL",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf6": {
+    "function": "A <- A | data",
+    "instruction": "ORI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xa9": {
+    "function": "A <- A ^ C",
+    "instruction": "XRA C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa8": {
+    "function": "A <- A ^ B",
+    "instruction": "XRA B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa7": {
+    "function": "A <- A & A",
+    "instruction": "ANA A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa6": {
+    "function": "A <- A & (HL)",
+    "instruction": "ANA M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa5": {
+    "function": "A <- A & L",
+    "instruction": "ANA L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa4": {
+    "function": "A <- A & H",
+    "instruction": "ANA H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa3": {
+    "function": "A <- A & E",
+    "instruction": "ANA E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa2": {
+    "function": "A <- A & D",
+    "instruction": "ANA D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa1": {
+    "function": "A <- A & C",
+    "instruction": "ANA C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xa0": {
+    "function": "A <- A & B",
+    "instruction": "ANA B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xf5": {
+    "function": "(sp-2)<-flags; (sp-1)<-A; sp <- sp - 2",
+    "instruction": "PUSH PSW",
+    "flags": null,
+    "size": "1"
+  },
+  "0x7a": {
+    "function": "A <- D",
+    "instruction": "MOV A,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf2": {
+    "function": "if P=1 PC <- adr",
+    "instruction": "JP adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0x7c": {
+    "function": "A <- H",
+    "instruction": "MOV A,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x7b": {
+    "function": "A <- E",
+    "instruction": "MOV A,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x7e": {
+    "function": "A <- (HL)",
+    "instruction": "MOV A,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x7d": {
+    "function": "A <- L",
+    "instruction": "MOV A,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x7f": {
+    "function": "A <- A",
+    "instruction": "MOV A,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf0": {
+    "function": "if P, RET",
+    "instruction": "RP",
+    "flags": null,
+    "size": "1"
+  },
+  "0x68": {
+    "function": "L <- B",
+    "instruction": "MOV L,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x69": {
+    "function": "L <- C",
+    "instruction": "MOV L,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x66": {
+    "function": "H <- (HL)",
+    "instruction": "MOV H,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x67": {
+    "function": "H <- A",
+    "instruction": "MOV H,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x64": {
+    "function": "H <- H",
+    "instruction": "MOV H,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x65": {
+    "function": "H <- L",
+    "instruction": "MOV H,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x62": {
+    "function": "H <- D",
+    "instruction": "MOV H,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x63": {
+    "function": "H <- E",
+    "instruction": "MOV H,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x60": {
+    "function": "H <- B",
+    "instruction": "MOV H,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x61": {
+    "function": "H <- C",
+    "instruction": "MOV H,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x99": {
+    "function": "A <- A - C - CY",
+    "instruction": "SBB C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xd5": {
+    "function": "(sp-2)<-E; (sp-1)<-D; sp <- sp - 2",
+    "instruction": "PUSH D",
+    "flags": null,
+    "size": "1"
+  },
+  "0xce": {
+    "function": "A <- A + data + CY",
+    "instruction": "ACI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xcd": {
+    "function": "(SP-1)<-PC.hi;(SP-2)<-PC.lo;SP<-SP+2;PC=adr",
+    "instruction": "CALL adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xb8": {
+    "function": "A - B",
+    "instruction": "CMP B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb9": {
+    "function": "A - C",
+    "instruction": "CMP C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xca": {
+    "function": "if Z, PC <- adr",
+    "instruction": "JZ adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xcc": {
+    "function": "if Z, CALL adr",
+    "instruction": "CZ adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xcb": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0xb2": {
+    "function": "A <- A | D",
+    "instruction": "ORA D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb3": {
+    "function": "A <- A | E",
+    "instruction": "ORA E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb0": {
+    "function": "A <- A | B",
+    "instruction": "ORA B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb1": {
+    "function": "A <- A | C",
+    "instruction": "ORA C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb6": {
+    "function": "A <- A | (HL)",
+    "instruction": "ORA M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb7": {
+    "function": "A <- A | A",
+    "instruction": "ORA A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb4": {
+    "function": "A <- A | H",
+    "instruction": "ORA H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xb5": {
+    "function": "A <- A | L",
+    "instruction": "ORA L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xe3": {
+    "function": "L <-> (SP); H <-> (SP+1)",
+    "instruction": "XTHL",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd6": {
+    "function": "A <- A - data",
+    "instruction": "SUI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0x6f": {
+    "function": "L <- A",
+    "instruction": "MOV L,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x6d": {
+    "function": "L <- L",
+    "instruction": "MOV L,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x6e": {
+    "function": "L <- (HL)",
+    "instruction": "MOV L,M",
+    "flags": null,
+    "size": "1"
+  },
+  "0x6b": {
+    "function": "L <- E",
+    "instruction": "MOV L,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x6c": {
+    "function": "L <- H",
+    "instruction": "MOV L,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x6a": {
+    "function": "L <- D",
+    "instruction": "MOV L,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x79": {
+    "function": "A <- C",
+    "instruction": "MOV A,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x78": {
+    "function": "A <- B",
+    "instruction": "MOV A,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x71": {
+    "function": "(HL) <- C",
+    "instruction": "MOV M,C",
+    "flags": null,
+    "size": "1"
+  },
+  "0x70": {
+    "function": "(HL) <- B",
+    "instruction": "MOV M,B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x73": {
+    "function": "(HL) <- E",
+    "instruction": "MOV M,E",
+    "flags": null,
+    "size": "1"
+  },
+  "0x72": {
+    "function": "(HL) <- D",
+    "instruction": "MOV M,D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x75": {
+    "function": "(HL) <- L",
+    "instruction": "MOV M,L",
+    "flags": null,
+    "size": "1"
+  },
+  "0x74": {
+    "function": "(HL) <- H",
+    "instruction": "MOV M,H",
+    "flags": null,
+    "size": "1"
+  },
+  "0x77": {
+    "function": "(HL) <- C",
+    "instruction": "MOV M,A",
+    "flags": null,
+    "size": "1"
+  },
+  "0x76": {
+    "function": "special",
+    "instruction": "HLT",
+    "flags": null,
+    "size": "1"
+  },
+  "0xc5": {
+    "function": "(sp-2)<-C; (sp-1)<-B; sp <- sp - 2",
+    "instruction": "PUSH B",
+    "flags": null,
+    "size": "1"
+  },
+  "0xc4": {
+    "function": "if NZ, CALL adr",
+    "instruction": "CNZ adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xc7": {
+    "function": "CALL $0",
+    "instruction": "RST 0",
+    "flags": null,
+    "size": "1"
+  },
+  "0xc6": {
+    "function": "A <- A + byte",
+    "instruction": "ADI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xc1": {
+    "function": "C <- (sp); B <- (sp+1); sp <- sp+2",
+    "instruction": "POP B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x8b": {
+    "function": "A <- A + E + CY",
+    "instruction": "ADC E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xc3": {
+    "function": "PC <= adr",
+    "instruction": "JMP adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xc2": {
+    "function": "if NZ, PC <- adr",
+    "instruction": "JNZ adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xbb": {
+    "function": "A - E",
+    "instruction": "CMP E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xbc": {
+    "function": "A - H",
+    "instruction": "CMP H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x8c": {
+    "function": "A <- A + H + CY",
+    "instruction": "ADC H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xbf": {
+    "function": "A - A",
+    "instruction": "CMP A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xc8": {
+    "function": "if Z, RET",
+    "instruction": "RZ",
+    "flags": null,
+    "size": "1"
+  },
+  "0xbd": {
+    "function": "A - L",
+    "instruction": "CMP L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xbe": {
+    "function": "A - (HL)",
+    "instruction": "CMP M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xf1": {
+    "function": "flags <- (sp); A <- (sp+1); sp <- sp+2",
+    "instruction": "POP PSW",
+    "flags": null,
+    "size": "1"
+  },
+  "0xe9": {
+    "function": "PC.hi <- H; PC.lo <- L",
+    "instruction": "PCHL",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd8": {
+    "function": "if CY, RET",
+    "instruction": "RC",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd9": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0xf7": {
+    "function": "CALL $30",
+    "instruction": "RST 6",
+    "flags": null,
+    "size": "1"
+  },
+  "0xf3": {
+    "function": "special",
+    "instruction": "DI",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd0": {
+    "function": "if NCY, RET",
+    "instruction": "RNC",
+    "flags": null,
+    "size": "1"
+  },
+  "0x9f": {
+    "function": "A <- A - A - CY",
+    "instruction": "SBB A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x9e": {
+    "function": "A <- A - (HL) - CY",
+    "instruction": "SBB M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x9d": {
+    "function": "A <- A - L - CY",
+    "instruction": "SBB L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x08": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x09": {
+    "function": "HL = HL + BC",
+    "instruction": "DAD B",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x9a": {
+    "function": "A <- A - D - CY",
+    "instruction": "SBB D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xd7": {
+    "function": "CALL $10",
+    "instruction": "RST 2",
+    "flags": null,
+    "size": "1"
+  },
+  "0x04": {
+    "function": "B <- B+1",
+    "instruction": "INR B",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x05": {
+    "function": "B <- B-1",
+    "instruction": "DCR B",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x06": {
+    "function": "B <- byte 2",
+    "instruction": "MVI B,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x07": {
+    "function": "A = A << 1; bit 0 = prev bit 7; CY = prev bit 7",
+    "instruction": "RLC",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x00": {
+    "function": null,
+    "instruction": "NOP",
+    "flags": null,
+    "size": "1"
+  },
+  "0x01": {
+    "function": "B <- byte 3, C <- byte 2",
+    "instruction": "LXI B,D16",
+    "flags": null,
+    "size": "3"
+  },
+  "0x02": {
+    "function": "(BC) <- A",
+    "instruction": "STAX B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x03": {
+    "function": "BC <- BC+1",
+    "instruction": "INX B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x84": {
+    "function": "A <- A + H",
+    "instruction": "ADD H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x85": {
+    "function": "A <- A + L",
+    "instruction": "ADD L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x86": {
+    "function": "A <- A + (HL)",
+    "instruction": "ADD M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x87": {
+    "function": "A <- A + A",
+    "instruction": "ADD A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x80": {
+    "function": "A <- A + B",
+    "instruction": "ADD B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x81": {
+    "function": "A <- A + C",
+    "instruction": "ADD C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x82": {
+    "function": "A <- A + D",
+    "instruction": "ADD D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x83": {
+    "function": "A <- A + E",
+    "instruction": "ADD E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x1f": {
+    "function": "A = A >> 1; bit 7 = prev bit 7; CY = prev bit 0",
+    "instruction": "RAR",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x1e": {
+    "function": "E <- byte 2",
+    "instruction": "MVI E,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x1d": {
+    "function": "E <- E-1",
+    "instruction": "DCR E",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x1c": {
+    "function": "E <-E+1",
+    "instruction": "INR E",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x1b": {
+    "function": "DE = DE-1",
+    "instruction": "DCX D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x1a": {
+    "function": "A <- (DE)",
+    "instruction": "LDAX D",
+    "flags": null,
+    "size": "1"
+  },
+  "0xde": {
+    "function": "A <- A - data - CY",
+    "instruction": "SBI D8",
+    "flags": "Z, S, P, CY, AC",
+    "size": "2"
+  },
+  "0xdf": {
+    "function": "CALL $18",
+    "instruction": "RST 3",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd1": {
+    "function": "E <- (sp); D <- (sp+1); sp <- sp+2",
+    "instruction": "POP D",
+    "flags": null,
+    "size": "1"
+  },
+  "0xd2": {
+    "function": "if NCY, PC<-adr",
+    "instruction": "JNC adr",
+    "flags": null,
+    "size": "3"
+  },
+  "0xd3": {
+    "function": "special",
+    "instruction": "OUT D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x9c": {
+    "function": "A <- A - H - CY",
+    "instruction": "SBB H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x9b": {
+    "function": "A <- A - E - CY",
+    "instruction": "SBB E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x8d": {
+    "function": "A <- A + L + CY",
+    "instruction": "ADC L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x8e": {
+    "function": "A <- A + (HL) + CY",
+    "instruction": "ADC M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x8f": {
+    "function": "A <- A + A + CY",
+    "instruction": "ADC A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0xe0": {
+    "function": "if PO, RET",
+    "instruction": "RPO",
+    "flags": null,
+    "size": "1"
+  },
+  "0xe7": {
+    "function": "CALL $20",
+    "instruction": "RST 4",
+    "flags": null,
+    "size": "1"
+  },
+  "0x8a": {
+    "function": "A <- A + D + CY",
+    "instruction": "ADC D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x19": {
+    "function": "HL = HL + DE",
+    "instruction": "DAD D",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x18": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x17": {
+    "function": "A = A << 1; bit 0 = prev CY; CY = prev bit 7",
+    "instruction": "RAL",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x16": {
+    "function": "D <- byte 2",
+    "instruction": "MVI D,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x15": {
+    "function": "D <- D-1",
+    "instruction": "DCR D",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x14": {
+    "function": "D <- D+1",
+    "instruction": "INR D",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x13": {
+    "function": "DE <- DE + 1",
+    "instruction": "INX D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x12": {
+    "function": "(DE) <- A",
+    "instruction": "STAX D",
+    "flags": null,
+    "size": "1"
+  },
+  "0x11": {
+    "function": "D <- byte 3, E <- byte 2",
+    "instruction": "LXI D,D16",
+    "flags": null,
+    "size": "3"
+  },
+  "0x10": {
+    "function": null,
+    "instruction": "-",
+    "flags": null,
+    "size": null
+  },
+  "0x97": {
+    "function": "A <- A - A",
+    "instruction": "SUB A",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x96": {
+    "function": "A <- A + (HL)",
+    "instruction": "SUB M",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x95": {
+    "function": "A <- A - L",
+    "instruction": "SUB L",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x94": {
+    "function": "A <- A + H",
+    "instruction": "SUB H",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x93": {
+    "function": "A <- A - E",
+    "instruction": "SUB E",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x92": {
+    "function": "A <- A + D",
+    "instruction": "SUB D",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x91": {
+    "function": "A <- A - C",
+    "instruction": "SUB C",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x90": {
+    "function": "A <- A - B",
+    "instruction": "SUB B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x0d": {
+    "function": "C <-C-1",
+    "instruction": "DCR C",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  },
+  "0x0e": {
+    "function": "C <- byte 2",
+    "instruction": "MVI C,D8",
+    "flags": null,
+    "size": "2"
+  },
+  "0x0f": {
+    "function": "A = A >> 1; bit 7 = prev bit 0; CY = prev bit 0",
+    "instruction": "RRC",
+    "flags": "CY",
+    "size": "1"
+  },
+  "0x98": {
+    "function": "A <- A - B - CY",
+    "instruction": "SBB B",
+    "flags": "Z, S, P, CY, AC",
+    "size": "1"
+  },
+  "0x0a": {
+    "function": "A <- (BC)",
+    "instruction": "LDAX B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x0b": {
+    "function": "BC = BC-1",
+    "instruction": "DCX B",
+    "flags": null,
+    "size": "1"
+  },
+  "0x0c": {
+    "function": "C <- C+1",
+    "instruction": "INR C",
+    "flags": "Z, S, P, AC",
+    "size": "1"
+  }
+}
