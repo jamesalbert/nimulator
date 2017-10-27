@@ -208,16 +208,26 @@ method dump(self: State8080) {.base.} =
 method noop(self: State8080) {.base.} =
   return
 
-method accumulate(self: State8080, register: uint8): uint16 {.base.} =
-  return (uint16)(self.a) + (uint16)(register)
+method add(self: State8080, regr: uint8, regl: uint8): uint16 {.base.} =
+  return (uint16)(regr) + (uint16)(regl)
 
-
-method evalFlags(self: State8080, acc: uint16) {.base.} =
-  self.cc.z = (uint8)((acc and 0xff) == (uint16)0)
-  self.cc.s = (uint8)((acc and 0x80) != (uint16)0)
-  self.cc.cy = (uint8)(acc > (uint16)0xff)
-  # self.cc.p = parity(acc and 0xff)
+method accumulate16(self: State8080, acc: uint16) {.base.} =
   self.a = acc and 0xff
+
+method accumulate8(self: State8080, acc: uint8) {.base.} =
+  self.a = acc and 0xf
+
+method evalFlags16(self: State8080, acc: uint16) {.base.} =
+  self.cc.z = (uint8)((acc and 0xff) == 0'u16)
+  self.cc.s = (uint8)((acc and 0x80) != 0'u16)
+  self.cc.cy = (uint8)(acc > 0xff'u16)
+  # self.cc.p = parity(acc and 0xff)
+
+method evalFlags8(self: State8080, acc: uint8) {.base.} =
+  self.cc.z = (uint8)((acc and 0xf) == 0'u8)
+  self.cc.s = (uint8)((acc and 0x8) != 0'u8)
+  self.cc.cy = (uint8)(acc > 0xf'u8)
+  # self.cc.p = parity(acc and 0xff)
 
 method emulate(self: State8080) {.base.} =
   var opcode: uint8 = self.binSeq[self.pc]
@@ -227,6 +237,19 @@ method emulate(self: State8080) {.base.} =
     self.c = self.binSeq[self.pc+1]
     self.b = self.binSeq[self.pc+2]
     self.pc += 2
+  of 0x04: # INR B; 1 byte
+    self.b += 1'u8
+    self.evalFlags8(self.b)
+  of 0x05: # DCR B; 1 byte
+    self.b -= 1'u8
+    self.evalFlags8(self.b)
+  of 0x06: # MVI B, D8; 2 bytes
+    self.b = self.binSeq[self.pc+1]
+    self.pc += 1
+  of 0x07: # RLC; 1 byte
+    # A = A << 1; bit 0 = prev bit 7; CY = prev bit 7
+    self.a = self.a shl 1'u8
+    # not finished
   of 0x41: # MOV B,C
     self.b = self.c
   of 0x42: # MOV B,D
@@ -234,20 +257,29 @@ method emulate(self: State8080) {.base.} =
   of 0x43: # MOV B,E
     self.b = self.e
   of 0x80: # ADD B
-    var acc = self.accumulate(self.b)
-    self.evalFlags(acc)
+    var acc = self.add(self.a, self.b)
+    self.evalFlags16(acc)
+    self.accumulate16(acc)
   of 0x81: # ADD C
-    var acc = self.accumulate(self.c)
-    self.evalFlags(acc)
+    var acc = self.add(self.a, self.c)
+    self.evalFlags16(acc)
+    self.accumulate16(acc)
   of 0xc6: # ADI byte
-    var acc = self.accumulate(self.binSeq[self.pc+1])
-    self.evalFlags(acc)
+    var acc = self.add(self.a, self.binSeq[self.pc+1])
+    self.evalFlags16(acc)
+    self.accumulate16(acc)
   of 0x86: # ADD M
     var offset: uint16 = (self.h shl 8) or self.l
     var acc: uint16 = (uint16) self.a + self.binSeq[(int)offset]
-    self.evalFlags(acc)
+    self.evalFlags16(acc)
+    self.accumulate16(acc)
   of 0xc2: # JNZ address
     if self.cc.z == 0:
+      self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
+    else:
+      self.pc += 2
+  of 0xd2: # JNC address; 3 bytes
+    if self.cc.cy == 0:
       self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
     else:
       self.pc += 2
