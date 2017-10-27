@@ -181,6 +181,30 @@ method unimplemented(self: State8080, opcode: uint8) {.base.} =
   # echo "error: unimplemented instruction '", opcode, "'"
   # quit(1)
 
+method dump(self: State8080) {.base.} =
+  echo "==Nimulator Dump=="
+  echo "values are formatted as dec / hex / bin"
+  echo "@@@ registers"
+  echo "a: ", self.a, " / ", toHex((int)self.a, 4), " / ", toBin((int)self.a, 8)
+  echo "b: ", self.b, " / ", toHex((int)self.b, 4), " / ", toBin((int)self.b, 8)
+  echo "c: ", self.c, " / ", toHex((int)self.c, 4), " / ", toBin((int)self.c, 8)
+  echo "d: ", self.d, " / ", toHex((int)self.d, 4), " / ", toBin((int)self.d, 8)
+  echo "e: ", self.e, " / ", toHex((int)self.e, 4), " / ", toBin((int)self.e, 8)
+  echo "h: ", self.h, " / ", toHex((int)self.h, 4), " / ", toBin((int)self.h, 8)
+  echo "l: ", self.l, " / ", toHex((int)self.l, 4), " / ", toBin((int)self.l, 8)
+  echo "@@@ memory"
+  echo "sp: ", self.sp, " / ", toHex((int)self.sp, 4), " / ", toBin((int)self.sp, 8)
+  echo "pc: ", self.pc, " / ", toHex((int)self.pc, 4), " / ", toBin((int)self.pc, 8)
+  echo "memory: ", self.binSeq[self.pc], " / ", toHex((int)self.binSeq[self.pc], 4), " / ", toBin((int)self.binSeq[self.pc], 8)
+  echo "int_enable: ", self.int_enable, " / ", toHex((int)self.int_enable, 4), " / ", toBin((int)self.int_enable, 8)
+  echo "@@@ flags"
+  echo "z: ", self.cc.z, " / ", toHex((int)self.cc.z, 4), " / ", toBin((int)self.cc.z, 8)
+  echo "s: ", self.cc.s, " / ", toHex((int)self.cc.s, 4), " / ", toBin((int)self.cc.s, 8)
+  echo "p: ", self.cc.p, " / ", toHex((int)self.cc.p, 4), " / ", toBin((int)self.cc.p, 8)
+  echo "cy: ", self.cc.cy, " / ", toHex((int)self.cc.cy, 4), " / ", toBin((int)self.cc.cy, 8)
+  echo "ac: ", self.cc.ac, " / ", toHex((int)self.cc.ac, 4), " / ", toBin((int)self.cc.ac, 8)
+  echo "pad: ", self.cc.pad, " / ", toHex((int)self.cc.pad, 4), " / ", toBin((int)self.cc.pad, 8)
+
 method noop(self: State8080) {.base.} =
   return
 
@@ -248,7 +272,11 @@ proc newState8080(): State8080 =
   t.translate()
   s = State8080(binSeq: t.binSeq, cc: newConditionCodes())
   while true:
-    s.emulate()
+    try:
+      s.emulate()
+    except:
+      s.dump()
+      quit(0)
   return s
 
 discard newState8080()
