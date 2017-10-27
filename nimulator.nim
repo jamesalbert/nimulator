@@ -271,10 +271,14 @@ proc newState8080(): State8080 =
   var s: State8080
   t.translate()
   s = State8080(binSeq: t.binSeq, cc: newConditionCodes())
-  while true:
+  while s.pc < s.binSeq.len:
     try:
       s.emulate()
     except:
+      let
+        e = getCurrentException()
+        msg = getCurrentExceptionMsg()
+      echo "Got exception ", repr(e), " with message ", msg
       s.dump()
       quit(0)
   return s
