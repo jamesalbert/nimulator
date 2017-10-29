@@ -49,7 +49,11 @@ proc padding(already, mode: string): string =
   return already & padding
 
 
-type Translator = ref object
+proc `[]` (s: seq[uint8], op: uint8|uint16): uint8 =
+  return s[(int)op]
+
+
+type Assembler = ref object
   # general state
   binSeq: seq[uint8]
   hexSeq: seq[string]
@@ -68,19 +72,19 @@ type Translator = ref object
   command: string
   params: seq[string]
 
-method bytes(self: Translator) {.base.} =
+method bytes(self: Assembler) {.base.} =
   let binFile: File = open(self.filename)
   let length: int64 = getFileSize(binFile)
   self.binSeq = newSeq[uint8](length)
   discard readBytes(binFile, self.binSeq, 0, length)
   close(binFile)
 
-method hexdump(self: Translator) {.base.} =
+method hexdump(self: Assembler) {.base.} =
   self.bytes()
   self.hexSeq = map[uint8, string](self.binSeq, proc(x: uint8): string =
     toHex(x).toLowerAscii)
 
-method parseInstruction(self: Translator) {.base.} =
+method parseInstruction(self: Assembler) {.base.} =
   var i: seq[string] = splitWhitespace(self.instruction)
   var p: seq[string] = @[]
   if i.len > 1:
@@ -88,7 +92,7 @@ method parseInstruction(self: Translator) {.base.} =
   self.command = i.pop().toLowerAscii
   self.params = p
 
-method nextop(self: Translator) {.base.} =
+method nextop(self: Assembler) {.base.} =
     let op: JsonNode = self.databook["0x" & self.hex]
     if op["instruction"].getStr() == "-":
       self.badop = true
@@ -99,19 +103,19 @@ method nextop(self: Translator) {.base.} =
     self.origSize = self.size
     self.badop = false
 
-method grab(self: Translator, param: string, start: int): string {.base.} =
+method grab(self: Assembler, param: string, start: int): string {.base.} =
     var newParam: string = special[param]
     for i in countdown(self.size, 1):
       newParam &= self.hexSeq[start + i]
       dec(self.size)
     return newParam
 
-method stretch(self: Translator, start: int) {.base.} =
+method stretch(self: Assembler, start: int) {.base.} =
     for i, param in self.params:
       if special.hasKey(param):
         self.params[i] = self.grab(param, start)
 
-method prettify(self: Translator) {.base.} =
+method prettify(self: Assembler) {.base.} =
   var mem: string = self.adr & " " & self.hex & " " & self.hexParams
   var params = join(self.params, sep=",").toLowerAscii
   var comment = "(" & $self.origSize & ") " & self.function.toLowerAscii
@@ -120,7 +124,7 @@ method prettify(self: Translator) {.base.} =
                  padding(params, "arg") &
                  " ; " & comment & "\n")
 
-method translate(self: Translator) {.base.} =
+method translate(self: Assembler) {.base.} =
   var i: int = 0
   while i < self.hexSeq.len:
     updateOutfile()
@@ -139,8 +143,8 @@ method translate(self: Translator) {.base.} =
     self.prettify()
     inc(i, self.origSize)
 
-proc newTranslator(filename: string): Translator =
-  var t: Translator = Translator()
+proc newAssembler(filename: string): Assembler =
+  var t: Assembler = Assembler()
   t.filename = filename
   t.databook = readJson("assets/8080-databook.json")
   t.hexdump()
@@ -160,7 +164,6 @@ type ConditionCodes = ref object
 proc newConditionCodes(): ConditionCodes =
   return ConditionCodes(z: 1, s: 1, p: 1, cy: 1, ac: 1, pad: 3)
 
-
 type State8080 = ref object
   a: uint8
   b: uint8
@@ -175,6 +178,11 @@ type State8080 = ref object
   cc: ConditionCodes
   int_enable: uint8
   binSeq: seq[uint8]
+  dt: Table[int, proc(self: State8080): uint8 {.nimcall.}]
+
+
+# g: Table[system.int, proc (self: State8080): uint8{.noSideEffect, gcsafe, locks: 0.}]
+# e: Table[system.int, proc (self: State8080): uint8{.closure, noSideEffect, gcsafe, locks: 0.}]
 
 method unimplemented(self: State8080, opcode: uint8) {.base.} =
   return
@@ -205,8 +213,8 @@ method dump(self: State8080) {.base.} =
   echo "ac: ", self.cc.ac, " / ", toHex((int)self.cc.ac, 4), " / ", toBin((int)self.cc.ac, 8)
   echo "pad: ", self.cc.pad, " / ", toHex((int)self.cc.pad, 4), " / ", toBin((int)self.cc.pad, 8)
 
-method noop(self: State8080) {.base.} =
-  return
+method noop(self: State8080): uint8 {.base.} =
+  return 0
 
 method add(self: State8080, regr: uint8, regl: uint8): uint16 {.base.} =
   return (uint16)(regr) + (uint16)(regl)
@@ -229,80 +237,154 @@ method evalFlags8(self: State8080, acc: uint8) {.base.} =
   self.cc.cy = (uint8)(acc > 0xf'u8)
   # self.cc.p = parity(acc and 0xff)
 
+method x01(self: State8080): uint8 {.base.} =
+  self.c = self.binSeq[self.pc+1]
+  self.b = self.binSeq[self.pc+2]
+  self.pc += 2
+  return 0'u8
+
+method x04(self: State8080): uint8 {.base.} =
+  # of 0x04: # INR B; 1 byte
+  self.b += 1'u8
+  self.evalFlags8(self.b)
+  return 0'u8
+
+method x05(self: State8080): uint8 {.base.} =
+  # of 0x05: # DCR B; 1 byte
+  self.b -= 1'u8
+  self.evalFlags8(self.b)
+  return 0'u8
+
+method x06(self: State8080): uint8 {.base.} =
+  # of 0x06: # MVI B, D8; 2 bytes
+  self.b = self.binSeq[self.pc+1]
+  self.pc += 1
+  return 0'u8
+
+method x07(self: State8080): uint8 {.base.} =
+  # of 0x07: # RLC; 1 byte
+  # A = A << 1; bit 0 = prev bit 7; CY = prev bit 7
+  self.a = self.a shl 1'u8
+  # not finished
+  return 0'u8
+
+method x41(self: State8080): uint8 {.base.} =
+  # of 0x41: # MOV B,C
+  self.b = self.c
+  return 0'u8
+
+method x42(self: State8080): uint8 {.base.} =
+  # of 0x42: # MOV B,D
+  self.b = self.d
+  return 0'u8
+
+method x43(self: State8080): uint8 {.base.} =
+  # of 0x43: # MOV B,E
+  self.b = self.e
+  return 0'u8
+
+method x80(self: State8080): uint8 {.base.} =
+  # of 0x80: # ADD B
+  var acc = self.add(self.a, self.b)
+  self.evalFlags16(acc)
+  self.accumulate16(acc)
+  return 0'u8
+
+method x81(self: State8080): uint8 {.base.} =
+  # of 0x81: # ADD C
+  var acc = self.add(self.a, self.c)
+  self.evalFlags16(acc)
+  self.accumulate16(acc)
+  return 0'u8
+
+method xc6(self: State8080): uint8 {.base.} =
+  # of 0xc6: # ADI byte
+  var acc = self.add(self.a, self.binSeq[self.pc+1])
+  self.evalFlags16(acc)
+  self.accumulate16(acc)
+  return 0'u8
+
+method x86(self: State8080): uint8 {.base.} =
+  # of 0x86: # ADD M
+  var offset: uint16 = (self.h shl 8) or self.l
+  var acc: uint16 = (uint16) self.a + self.binSeq[offset]
+  self.evalFlags16(acc)
+  self.accumulate16(acc)
+  return 0'u8
+
+method xc2(self: State8080): uint8 {.base.} =
+  # of 0xc2: # JNZ address
+  if self.cc.z == 0:
+    self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
+  else:
+    self.pc += 2
+  return 0'u8
+
+method xd2(self: State8080): uint8 {.base.} =
+  # of 0xd2: # JNC address; 3 bytes
+  if self.cc.cy == 0:
+    self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
+  else:
+    self.pc += 2
+  return 0'u8
+
+method xc3(self: State8080): uint8 {.base.} =
+  # of 0xc3: # JMP address
+  self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
+  return 0'u8
+
+method xcd(self: State8080): uint8 {.base.} =
+  # of 0xcd: # CALL address
+  var ret: uint16 = (uint16)(self.pc + 2)
+  self.binSeq[self.pc-1] = (ret shr 8) and 0xff
+  self.binSeq[self.pc-2] = ret and 0xff
+  self.sp -= 2
+  self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
+  return 0'u8
+
+method xc9(self: State8080): uint8 {.base.} =
+  # of 0xc9: # RET
+  self.pc = (int)(self.binSeq[self.sp] or (self.binSeq[self.sp+1] shl 8))
+  self.sp += 2
+  return 0'u8
+
+method dispatch(self: State8080, opcode: uint8) =
+  try:
+    discard self.dt[(int)opcode](self)
+  except KeyError:
+    self.unimplemented(opcode)
+
 method emulate(self: State8080) {.base.} =
   var opcode: uint8 = self.binSeq[self.pc]
-  case opcode
-  of 0x00: self.noop()
-  of 0x01: # LXI B,D16
-    self.c = self.binSeq[self.pc+1]
-    self.b = self.binSeq[self.pc+2]
-    self.pc += 2
-  of 0x04: # INR B; 1 byte
-    self.b += 1'u8
-    self.evalFlags8(self.b)
-  of 0x05: # DCR B; 1 byte
-    self.b -= 1'u8
-    self.evalFlags8(self.b)
-  of 0x06: # MVI B, D8; 2 bytes
-    self.b = self.binSeq[self.pc+1]
-    self.pc += 1
-  of 0x07: # RLC; 1 byte
-    # A = A << 1; bit 0 = prev bit 7; CY = prev bit 7
-    self.a = self.a shl 1'u8
-    # not finished
-  of 0x41: # MOV B,C
-    self.b = self.c
-  of 0x42: # MOV B,D
-    self.b = self.d
-  of 0x43: # MOV B,E
-    self.b = self.e
-  of 0x80: # ADD B
-    var acc = self.add(self.a, self.b)
-    self.evalFlags16(acc)
-    self.accumulate16(acc)
-  of 0x81: # ADD C
-    var acc = self.add(self.a, self.c)
-    self.evalFlags16(acc)
-    self.accumulate16(acc)
-  of 0xc6: # ADI byte
-    var acc = self.add(self.a, self.binSeq[self.pc+1])
-    self.evalFlags16(acc)
-    self.accumulate16(acc)
-  of 0x86: # ADD M
-    var offset: uint16 = (self.h shl 8) or self.l
-    var acc: uint16 = (uint16) self.a + self.binSeq[(int)offset]
-    self.evalFlags16(acc)
-    self.accumulate16(acc)
-  of 0xc2: # JNZ address
-    if self.cc.z == 0:
-      self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
-    else:
-      self.pc += 2
-  of 0xd2: # JNC address; 3 bytes
-    if self.cc.cy == 0:
-      self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
-    else:
-      self.pc += 2
-  of 0xc3: # JMP address
-    self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
-  of 0xcd: # CALL address
-    var ret: uint16 = (uint16)(self.pc + 2)
-    self.binSeq[self.pc-1] = (ret shr 8) and 0xff
-    self.binSeq[self.pc-2] = ret and 0xff
-    self.sp = self.sp - 2
-    self.pc = (int)((self.binSeq[self.pc+2] shl 8) or self.binSeq[self.pc+1])
-  of 0xc9: # RET
-    self.pc = (int)(self.binSeq[(int)self.sp] or (self.binSeq[(int)self.sp+1] shl 8))
-    self.sp += 2
-  else:
-    self.unimplemented(opcode)
+  self.dispatch opcode
   self.pc += 1
 
 proc newState8080(): State8080 =
-  var t: Translator = newTranslator("assets/mario.nes")
+  var t: Assembler = newAssembler("assets/mario.nes")
   var s: State8080
   t.translate()
   s = State8080(binSeq: t.binSeq, cc: newConditionCodes())
+  s.dt = {
+    0x00: noop,
+    0x01: x01,
+    0x04: x04,
+    0x05: x05,
+    0x06: x06,
+    0x07: x07,
+    0x41: x41,
+    0x42: x42,
+    0x43: x43,
+    0x80: x80,
+    0x81: x81,
+    0xc6: xc6,
+    0x86: x86,
+    0xc2: xc2,
+    0xd2: xd2,
+    0xc3: xc3,
+    0xcd: xcd,
+    0xc9: xc9,
+    0x06: x06
+  }.toTable
   while s.pc < s.binSeq.len:
     try:
       s.emulate()
